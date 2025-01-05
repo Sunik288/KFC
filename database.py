@@ -13,7 +13,6 @@ sql.execute('CREATE TABLE IF NOT EXISTS products (pr_id INTEGER PRIMARY KEY AUTO
 
 sql.execute('CREATE TABLE IF NOT EXISTS cart (user_id INTEGER, pr_id INTEGER, pr_name TEXT, pr_count INTEGER, total_price REAL);')
 
-sql.execute('UPDATE products SET pr_quantity=10 WHERE pr_id=1')
 
 
 connection.commit()
