@@ -53,7 +53,7 @@ def product_menu(plus_or_minus='', current_amount=1):
         if current_amount > 1:
             item2 = InlineKeyboardButton(text=f'{current_amount - 1}', callback_data='none')
 
-    item5 = InlineKeyboardButton(text='Back⬅️', callback_data='back_cart')
+    item5 = InlineKeyboardButton(text='Back⬅️', callback_data='back_menu')
     item4 = InlineKeyboardButton(text='Add to cart🛒', callback_data='to_cart')
 
     kb.row(item1, item2, item3)
@@ -66,7 +66,7 @@ def cart(cart_products):
     kb = InlineKeyboardMarkup(row_width=2)
 
     item1 = [InlineKeyboardButton(text=f'{product[1]} ❌', callback_data=f'delete_{product[0]}') for product in cart_products]
-    item3 = InlineKeyboardButton(text='Back⬅️', callback_data='back_menu')
+    item3 = InlineKeyboardButton(text='Back⬅️', callback_data='back_cart')
     item2 = InlineKeyboardButton(text='Order✅', callback_data='order')
     item4 = InlineKeyboardButton(text='Clear cart🛒', callback_data='clear')
 
@@ -80,7 +80,7 @@ def cart(cart_products):
 def empty_cart():
     kb = InlineKeyboardMarkup(row_width=1)
 
-    item3 = InlineKeyboardButton(text='Back⬅️', callback_data='back_menu')
+    item3 = InlineKeyboardButton(text='Back⬅️', callback_data='back_cart')
     kb.row(item3)
 
     return kb

@@ -8,6 +8,7 @@ bot = telebot.TeleBot('7741048536:AAHLCcN_WzyXHphIfZb356f_eMdmArRbwwg')
 admin_group = -4753465855
 
 users = {}
+messages_user = {}
 
 # db.add_product("Burger", 30000.00, 10, 'The best burger', "https://www.gazeta.uz/media/img/2017/10/8NWCAY15072899796600_l.jpg")
 # db.add_product("Cheeseburger", 35000.00, 10, 'The best cheeseburger', "https://www.gazeta.uz/media/img/2017/10/8NWCAY15072899796600_l.jpg")
@@ -67,8 +68,14 @@ def main_bar(message):
 
         products = db.get_cart_id_name(user_id)
 
-        bot.send_message(user_id, first)
-        bot.send_message(user_id, full_text, reply_markup=btn.cart(products))
+        mes = bot.send_message(user_id, first)
+        messages_user['message_id'] = mes.id
+
+
+        if total != 0:
+            bot.send_message(user_id, full_text, reply_markup=btn.cart(products))
+        else:
+            bot.send_message(user_id, full_text, reply_markup=btn.empty_cart())
 
 
 
@@ -99,11 +106,6 @@ def product(call):
 def operations(call):
     user_id = call.message.chat.id
     if call.data == 'back':
-        bot.delete_message(user_id, call.message.message_id)
-        bot.send_message(user_id, 'Choose from the navigation bar below👇', reply_markup=btn.main())
-
-    elif call.data == 'back_cart':
-        bot.delete_message(user_id, call.message.message_id-1)
         bot.delete_message(user_id, call.message.message_id)
         bot.send_message(user_id, 'Choose from the navigation bar below👇', reply_markup=btn.main())
 
@@ -153,8 +155,18 @@ def operations(call):
 
         products = db.get_cart_id_name(user_id)
 
-        bot.send_message(user_id, first)
-        bot.send_message(user_id, full_text, reply_markup=btn.cart(products))
+        mes = bot.send_message(user_id, first)
+        messages_user['message_id'] = mes.id
+
+        if total != 0:
+            bot.send_message(user_id, full_text, reply_markup=btn.cart(products))
+        else:
+            bot.send_message(user_id, full_text, reply_markup=btn.empty_cart())
+
+    elif call.data == 'back_cart':
+        bot.delete_message(user_id, messages_user['message_id'])
+        bot.delete_message(user_id, call.message.message_id)
+        bot.send_message(user_id, 'Choose from the navigation bar below👇', reply_markup=btn.main())
 
     elif call.data == 'clear':
         db.delete_exact_cart(user_id)
