@@ -115,3 +115,10 @@ def get_exact_product_quantity(pr_id):
 
     data = sql.execute('SELECT pr_quantity FROM products WHERE pr_id=?;', (pr_id,)).fetchone()[0]
     return data
+
+def delete_product(pr_id):
+    connection = sqlite3.connect('kfc.db')
+    sql = connection.cursor()
+
+    sql.execute('DELETE FROM products WHERE pr_id=?;', (pr_id,))
+    connection.commit()

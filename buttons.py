@@ -1,4 +1,5 @@
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
+admin_id = 666666379
 
 def phone():
     kb = ReplyKeyboardMarkup(resize_keyboard=True)
@@ -9,7 +10,7 @@ def phone():
 
     return kb
 
-def main():
+def main(user_id = 0):
 
     kb = ReplyKeyboardMarkup(resize_keyboard=True)
 
@@ -19,6 +20,10 @@ def main():
 
     kb.row(item1)
     kb.row(item2, item3)
+
+    if user_id == admin_id:
+        item4 = KeyboardButton(text='Back to admin menu⬅️')
+        kb.row(item4)
 
     return kb
 
@@ -81,6 +86,39 @@ def empty_cart():
     kb = InlineKeyboardMarkup(row_width=1)
 
     item3 = InlineKeyboardButton(text='Back⬅️', callback_data='back_cart')
+    kb.row(item3)
+
+    return kb
+
+def admin():
+    kb = InlineKeyboardMarkup(row_width=2)
+
+    item1 = InlineKeyboardButton(text='Admin settings⚙️', callback_data='admin')
+    item2 = InlineKeyboardButton(text='User interface👤', callback_data='user')
+
+    kb.row(item1, item2)
+
+    return kb
+
+def admin_buttons():
+
+    kb = ReplyKeyboardMarkup(resize_keyboard=True)
+
+    item1 = KeyboardButton(text='Add  product🥘')
+    item2 = KeyboardButton(text='Back⬅️')
+    item3 = KeyboardButton(text='Remove product❌')
+
+    kb.row(item1, item3)
+    kb.row(item2)
+    return kb
+
+
+def remove(products):
+    kb = InlineKeyboardMarkup(row_width=2)
+
+    item1 = [InlineKeyboardButton(text=f'{product[1]} ❌', callback_data=f'admin_{product[0]}') for product in products]
+    item3 = InlineKeyboardButton(text='Back⬅️', callback_data='back_remove')
+    kb.add(*item1)
     kb.row(item3)
 
     return kb
